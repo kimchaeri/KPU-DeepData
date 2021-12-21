@@ -12,7 +12,8 @@
 1. 허위 리뷰
 ![허위리뷰](https://user-images.githubusercontent.com/74261590/146880675-d7f9cb5f-0bef-4d1a-a7ff-b642cb6622bf.jpg)
 2. 악성 리뷰
-4. 긍정적인 리뷰 내에 부정적인 평가 존재
+![악성리뷰](https://user-images.githubusercontent.com/74261590/146880741-5cb74f3d-803f-4d38-b202-9a0900c894c2.jpg)
+3. 긍정적인 리뷰 내에 부정적인 평가 존재
 
 #### 해결 방안
 허위 리뷰 - 허위 리뷰를 제거함으로써 리뷰에 대한 신뢰도 상승
