@@ -23,6 +23,8 @@
 
 ![긍정적인 평가내에 부정적인 평가 존재](https://user-images.githubusercontent.com/74261590/146880899-4ab216e7-f1be-4f32-b68b-50b976cc63f0.jpg)
 
+---------------------------------
+
 #### 해결 방안
 <table>
   <tr>
