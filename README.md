@@ -4,15 +4,19 @@
 ### 프로젝트 소개
 #### 문제 인식
 + 리뷰의 중요성
++ 
 ![리뷰의 중요성](https://user-images.githubusercontent.com/74261590/146880587-e1e6e809-f87f-4cc5-8d69-d864f62a8a94.png)
 
 식당에 대한 정보를 판단할 때 소비자들의 리뷰의 중요성이 커지고 있음
 
 + 다양한 리뷰에 대한 신빙성 문제
 1. 허위 리뷰
+
 ![허위리뷰](https://user-images.githubusercontent.com/74261590/146880675-d7f9cb5f-0bef-4d1a-a7ff-b642cb6622bf.jpg)
 2. 악성 리뷰
+
 ![악성리뷰](https://user-images.githubusercontent.com/74261590/146880741-5cb74f3d-803f-4d38-b202-9a0900c894c2.jpg)
+
 3. 긍정적인 리뷰 내에 부정적인 평가 존재
 
 #### 해결 방안
