@@ -9,7 +9,7 @@
 
 <table>
   <tr>
-    <th>리뷰의 중요성</th>
+    <th row span="2">리뷰의 중요성</th>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/74261590/146876336-f078a493-af55-42b5-a91c-2cd3a8b86489.jpg"></td>
