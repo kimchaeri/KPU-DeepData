@@ -4,15 +4,7 @@
 ### 프로젝트 소개
 #### 문제 인식
 + 리뷰의 중요성
-<table>
-  <tr>
-    <th colspan="2">리뷰의 중요성</th>
-  </tr>
-  <tr>
-    <td><img src="https://user-images.githubusercontent.com/74261590/146876336-f078a493-af55-42b5-a91c-2cd3a8b86489.jpg"></td>
-    <td><img src="https://user-images.githubusercontent.com/74261590/146876291-b55f0e87-2e21-4607-a09b-fa94b2c795be.jpg"></td>
-  </tr>
-</table>
+![리뷰의 중요성](https://user-images.githubusercontent.com/74261590/146880587-e1e6e809-f87f-4cc5-8d69-d864f62a8a94.png)
 
 식당에 대한 정보를 판단할 때 소비자들의 리뷰의 중요성이 커지고 있음
 
