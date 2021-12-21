@@ -47,3 +47,4 @@
 
 ### 프로젝트 프로세스
 
+![문제 해결 프로세스](https://user-images.githubusercontent.com/74261590/146882160-fec49403-7dc1-4d83-8605-c365868cb8e7.png)
