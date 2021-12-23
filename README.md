@@ -55,7 +55,7 @@
 #### 데이터 수집
 1. 식당 수집
 
-  본인이 검색하고 싶은 지역 + 맛집으로 네이버 지도에 검색
+본인이 검색하고 싶은 지역 + 맛집으로 네이버 지도에 검색
 
 ![식당 수집](https://user-images.githubusercontent.com/74261590/147182014-5b6ac26c-594c-4094-8b3f-34ae7dc0b90f.jpg)
 ![식당 수집 리스트](https://user-images.githubusercontent.com/74261590/147182301-2e7a8715-8db0-4f8a-b284-ff59c91379a5.jpg)
@@ -74,10 +74,74 @@ driver.get(place_url.format(place))
 2. 블로그 리뷰 수집
 3. 네이버 플레이스 방문자 리뷰 수집
 
-  추출한 url을 통해 네이버 플레이서 방문자 리뷰 수집
+추출한 url을 통해 네이버 플레이스 방문자 리뷰 수집
 
 ![네이버 플레이스 방문자 리뷰 수집](https://user-images.githubusercontent.com/74261590/147182539-c41d7c68-4db4-4e82-a1d4-154191dbe2e1.jpg)
+![네이버 플레이스 방문자 리뷰 수집 리스트](https://user-images.githubusercontent.com/74261590/147182574-0fc5c30e-eebd-427b-b3e2-34705368f435.jpg)
+``` Python
+driver = webdriver.Chrome(executable_path=r'D:\temp\chromedriver.exe')
 
+for idx,row in data2.iterrows():
+    try:
+        #식당 정보 url, 이름, 지역 가져오기
+        url=row['url']
+        place_name=row['name']
+        region=row['region']
+        print('========================')
+        print(place_name + '식당')
+
+        #url접속
+        driver.get(url)
+        driver.implicitly_wait(3)
+
+        #더보기 버튼 다 누르기
+        while True:
+            try:
+                time.sleep(1)
+                driver.find_element_by_tag_name('body').send_keys(Keys.END)
+                time.sleep(1)
+                driver.find_element_by_css_selector('#app-root > div > div > div.place_detail_wrapper > div:nth-child(5) > div:nth-child(4) > div.place_section.cXO6M > div._2kAri > a').click()
+                time.sleep(1)
+                driver.find_element_by_tag_name('body').send_keys(Keys.END)
+                time.sleep(1)
+
+            except NoSuchElementException:
+                print("-더보기 버튼 모두 클릭 완료-")
+                break
+
+        #파싱
+        html = driver.page_source
+        soup = BeautifulSoup(html, 'lxml')
+        time.sleep(1)
+
+        #식당 리뷰 개수 출력
+        reviews = soup.find_all('div', attrs = {'class':'_3vfQ6'}) #리뷰 공간
+        review_num = len(reviews) #특정 식당의 리뷰 총 개수
+        print('리뷰 총 개수 : ' + str(review_num))
+
+        #넘버링
+        num = []
+        for i in range(0, review_num):
+            num.append(i+1)
+
+        #크롤링 작업
+        category = '방문자 리뷰'
+        for i in range(0, review_num):
+            # review 내용
+            try : 
+                review_content = reviews[i].find('span', attrs = {'class':'WoYOw'}).text
+
+            except: #리뷰가 없다면
+                review_content = ""
+
+            visitor_review_dic = {
+                'num':num[i],
+                'name' : place_name,
+                'blog or review' : category,
+                'visitor review content' : review_content
+            }
+            visitor_review_arr.append(visitor_review_dic)
+```
 #### 리뷰 전처리
 #### 리뷰 선별
 #### 식당 별 키워드 추출 및 감성 분석 
