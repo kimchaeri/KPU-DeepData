@@ -242,7 +242,7 @@ def normalization(cr_review):
 
 데이터가 너무 적고 불균형이 심해 성능이 제대로 나오지 않아 기존 spam 데이터를 복제해서 삽입
 
-NONSPAM : SPAM = 2756 : 66 -> NONSPAM : SPAM = 2756 : 157
+NONSPAM(0) : SPAM(1) = 2756 : 66 -> NONSPAM(0) : SPAM(1) = 2756 : 157
 
 ![허위 리뷰 변수 특성](https://user-images.githubusercontent.com/74261590/147189668-8610bfd1-e3b7-4872-80b5-e0a2e8ada66e.jpg)
 
@@ -353,5 +353,12 @@ FastText 모델과 Word2Vec pretrained모델과 FastText pretrained 모델을 fi
 ![image](https://user-images.githubusercontent.com/74261590/147196920-95156090-9015-4fd7-86ec-152c8328c563.png)
 
 + 변수 특성
+
+데이터가 너무 적고 불균형이 심해 성능이 제대로 나오지 않아 악성 리뷰를 약 200개 정도 추가로 수집한 후 비판 리뷰와 악성 리뷰 복제 후 삽입
+
+일반 리뷰(0) : 비판 리뷰(1) : 악성 리뷰(2) = 13137 : 636 : 119 -> 일반 리뷰(0) : 비판 리뷰(1) : 악성 리뷰(2) = 13137 : 1272 : 636
+
+![image](https://user-images.githubusercontent.com/74261590/147197198-e2a9212a-f622-4d5d-ac66-6a2f61b02dd2.png)
+
 
 #### 식당 별 키워드 추출 및 감성 분석 
