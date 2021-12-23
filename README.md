@@ -72,6 +72,9 @@ place_url="https://m.map.naver.com/search2/search.naver?query={}맛집"
 driver.get(place_url.format(place))
 ```
 2. 블로그 리뷰 수집
+
+블로그 리뷰를 추출하기 위해서 url 변환 후(pcmap->m) 블로그 리뷰 수집
+
 3. 네이버 플레이스 방문자 리뷰 수집
 
 추출한 url을 통해 네이버 플레이스 방문자 리뷰 수집
