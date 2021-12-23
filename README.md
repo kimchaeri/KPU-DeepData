@@ -58,6 +58,7 @@
 본인이 검색하고 싶은 지역 + 맛집으로 네이버 지도에 검색
 
 ![식당 수집](https://user-images.githubusercontent.com/74261590/147182014-5b6ac26c-594c-4094-8b3f-34ae7dc0b90f.jpg)
+![식당 수집 리스트](https://user-images.githubusercontent.com/74261590/147182301-2e7a8715-8db0-4f8a-b284-ff59c91379a5.jpg)
 ``` Python
 #동적 크롤링을 위한 크롬드라이버
 driver = webdriver.Chrome(executable_path=r'D:\temp\chromedriver.exe')
