@@ -176,6 +176,7 @@ for idx,row in data2.iterrows():
     <td>허위 리뷰</td>
   </tr>
 </table>
+
 ``` Python
 corpus = []
 def normalization(cr_review):
