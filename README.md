@@ -250,7 +250,7 @@ NONSPAM : SPAM = 2756 : 66 -> NONSPAM : SPAM = 2756 : 157
 
 성능 평가 지표로는 Confusion matrix(Accuracy, Recall, Precision, F1_Score)와 ROC분석을 통한 AUC 수치 활용
 
--Random Forest
+-Decision Tree
 <table>
   <tr>
     <th>AUC 수치</th>
@@ -261,8 +261,17 @@ NONSPAM : SPAM = 2756 : 66 -> NONSPAM : SPAM = 2756 : 157
     <td><img src="https://user-images.githubusercontent.com/74261590/147191119-3f829b49-7606-4ca8-a942-cba4a241eed0.png"></td>
   </tr>
 </table>
--Decision Tree
-
+-Random Forest
+<table>
+  <tr>
+    <th>AUC 수치</th>
+    <th>Confusion Matrix</th>
+  </tr>
+ <tr>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147191198-7b82ec27-efd8-416e-aa0a-b930f8793f1c.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147191229-de12d195-53cd-4e51-9569-71a2c27524e8.png"></td>
+  </tr>
+</table>
 -Logisitic Regression
 
 -xgboost
