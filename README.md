@@ -162,5 +162,60 @@ for idx,row in data2.iterrows():
         time.sleep(1)
 ```
 #### 리뷰 전처리
+1. 영어, 자음과 모음, 특수 문자 제거
+2. 띄어쓰기 전처리
+3. 리뷰를 문장 단위로 자르기
+4. 전처리가 끝난 문장에 .을 붙임
+``` Python
+corpus = []
+def normalization(cr_review):
+    for i in tqdm(range(0, len(cr_review)), desc='전처리 진행율'):
+        review = re.sub('\n','', str(cr_review[i]))
+        # 기본 전처리
+        review = re.sub('\u200b','',review) # 폭 없는 공백 제거
+        review = re.sub('\xa0','',review) # Latin1 (ISO 8859-1)비 공백 공간 제거
+        review = re.sub(r'[@%\\*=()/~#&\+á?\xc3\xa1\-\|\.\;\!\-\,\_\~\$\'\"\:]', '',review) # 여러 기호 제거
+        review = re.sub(r'[^가-힣-\s0-9]', '', review) # 한글과 숫자만 살리고 제거
+        review = re.sub(r'\s+', ' ', review) # 다중 공백 제거
+        review = re.sub(r'^\s+', '', review) # 시작 공백 제거
+        # 표현 및 문법 전처리
+        review = re.sub('라구요|라구여|라구용|라고염|라고여|라고용', '라고요', review)
+        review = re.sub('어용|어염|어여', '어요', review)
+        review = re.sub('봐용|봐염|봐여', '봐요', review)
+        review = re.sub('게용|게염|게여', '게요', review)
+        review = re.sub('했당', '했다', review)
+        review = re.sub('았당', '았다', review)
+        review = re.sub('에용|에염|에여|예염', '에요', review)
+        review = re.sub('세용|세염|세여', '세요', review)
+        review = re.sub('께용|께염|께여|께유', '께요', review)
+        review = re.sub('해용|해염|해여|해유', '해요', review)
+        review = re.sub('네용|네염|네여|네유', '네요', review)
+        review = re.sub('아용|아염|아여', '아요', review)
+        review = re.sub('니당', '니다', review)
+        review = re.sub('괜춘', '괜찮네요', review)
+        review = re.sub('이뻐', '예뻐', review)
+        review = re.sub('이쁘', '예쁘', review)
+        review = re.sub('이쁜', '예쁜', review)
+        review = re.sub('고기집', '고깃집', review)
+        review = re.sub('같아용|같아염|같아여', '같아요', review)
+        review = re.sub('같네용|같네염|같네여', '같네요', review)
+        review = re.sub('이구용', '이구요', review)
+        review = re.sub('었 따', '었다', review)
+        # 띄어쓰기
+        review = spacing(review)
+        # 띄어쓰기 전처리
+        review = re.sub('니\s다', '니다', review)
+        review = re.sub('라\s고요|라고\s요', '라고요', review)
+        review = re.sub('배\s곧', '배곧', review)
+        review = re.sub('또\s잇', '또잇', review)
+        review = re.sub('와\s규', '와규', review)
+        review = re.sub('에\s비야', '에비야', review)
+        #문장 분절
+        review = kss.split_sentences(review)
+        corpus.append(review)
+        
+        
+    return corpus
+```
 #### 리뷰 선별
 #### 식당 별 키워드 추출 및 감성 분석 
