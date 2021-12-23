@@ -74,6 +74,8 @@ driver.get(place_url.format(place))
 2. 블로그 리뷰 수집
 
 블로그 리뷰를 추출하기 위해서 url 변환 후(pcmap->m) 블로그 리뷰 수집
+
+![블로그 리뷰 수집](https://user-images.githubusercontent.com/74261590/147184066-dacc130d-87a0-46a6-b892-468b189ff7ed.jpg)
 ``` Python
 driver = webdriver.Chrome(executable_path=r'D:\temp\chromedriver.exe')
 
