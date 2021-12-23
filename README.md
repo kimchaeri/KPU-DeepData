@@ -53,7 +53,7 @@
 ![프로젝트 프로세스](https://user-images.githubusercontent.com/74261590/146882619-75263567-6a35-45b4-bb68-ed2bc8acc5e5.jpg)
 
 #### 데이터 수집
-1. 식당 수집
+##### 1. 식당 수집
 
 본인이 검색하고 싶은 지역 + 맛집으로 네이버 지도에 검색
 ![식당 수집](https://user-images.githubusercontent.com/74261590/147182014-5b6ac26c-594c-4094-8b3f-34ae7dc0b90f.jpg)
