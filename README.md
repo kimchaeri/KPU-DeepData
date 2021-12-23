@@ -228,4 +228,5 @@ def normalization(cr_review):
     return corpus
 ```
 #### 리뷰 선별
+1. 허위 리뷰 필터링
 #### 식당 별 키워드 추출 및 감성 분석 
