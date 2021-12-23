@@ -305,10 +305,13 @@ NONSPAM : SPAM = 2756 : 66 -> NONSPAM : SPAM = 2756 : 157
 2. 관련 없는 내용 필터링
 
 블로그 리뷰에는 식당에 대한 리뷰 뿐만 아니라 일상적인 내용들이 많이 있어 리뷰에 대한 내용만을 뽑아낼 필요성이 있음
+
 FastText 모델과 Word2Vec pretrained모델과 FastText pretrained 모델을 fine tuning한 transfered 모델 사용
 
-① 블로그 리뷰 토큰화 
+① 블로그 리뷰 토큰화
+
 ② 토큰화한 리뷰 데이터를 이용하여 학습
+
 ③ 블로그 리뷰 중 식당에 대한 내용만 있는 리뷰(기준 문장)와 다른 리뷰들 사이의 유사도를 계산해서 평균을 구함
 <table>
   <tr>
