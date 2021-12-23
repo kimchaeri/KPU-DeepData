@@ -172,7 +172,7 @@ for idx,row in data2.iterrows():
     <th>전처리 후</th>
   </tr>
  <tr>
-    <td>허위 리뷰</td>
+    <td>![전처리 전](https://user-images.githubusercontent.com/74261590/147184522-7102cfe6-89b6-4a0f-960b-419d57799ecd.jpg)</td>
     <td>허위 리뷰</td>
   </tr>
 </table>
