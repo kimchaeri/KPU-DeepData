@@ -236,6 +236,8 @@ def normalization(cr_review):
 
 ② 블로그 리뷰에 spam_words에 있는 단어가 있을 경우 spam(1), 없을 경우 non_spam(0)으로 라벨링
 
+![spam_words](https://user-images.githubusercontent.com/74261590/147190696-92f4ee9a-fae4-4df0-b481-0a25efda180c.jpg)
+
 + 변수 특성
 
 ![허위 리뷰 변수 특성](https://user-images.githubusercontent.com/74261590/147189668-8610bfd1-e3b7-4872-80b5-e0a2e8ada66e.jpg)
