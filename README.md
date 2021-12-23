@@ -360,5 +360,48 @@ FastText 모델과 Word2Vec pretrained모델과 FastText pretrained 모델을 fi
 
 ![image](https://user-images.githubusercontent.com/74261590/147197198-e2a9212a-f622-4d5d-ac66-6a2f61b02dd2.png)
 
++ 모델 성능
+
+성능 평가 지표로는 Confusion matrix(Accuracy, Recall, Precision, F1_Score)와 ROC분석을 통한 AUC 수치 활용
+
+-Decision Tree
+<table>
+  <tr>
+    <th>AUC 수치</th>
+    <th>Confusion Matrix</th>
+  </tr>
+ <tr>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147197305-c6f12376-fbb8-4f33-ab59-3aea860b18cf.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147197335-3f809641-c879-4271-a287-fb2e654f6ca2.png"></td>
+  </tr>
+</table>
+
+-xgboost
+<table>
+  <tr>
+    <th>AUC 수치</th>
+    <th>Confusion Matrix</th>
+  </tr>
+ <tr>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147197386-205df060-f313-4841-9bc7-0027c13cce5d.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147197432-2155be7e-cf3f-4d50-9edc-5924b6969dab.png"></td>
+  </tr>
+</table>
+
+-LightGBM
+<table>
+  <tr>
+    <th>AUC 수치</th>
+    <th>Confusion Matrix</th>
+  </tr>
+ <tr>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147197456-6cbd0d8d-4219-493a-bc98-876dae1863be.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147197471-5ba38993-6ed8-4e48-83db-b1e4da951eb6.png"></td>
+  </tr>
+</table>
+
+가장 성능이 좋아 최종 모델로 선정
+
+-> LightGBM 모델을 사용하여 13892개의 데이터 중 132개의 악성 리뷰 제거
 
 #### 식당 별 키워드 추출 및 감성 분석 
