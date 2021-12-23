@@ -173,9 +173,7 @@ for idx,row in data2.iterrows():
   </tr>
  <tr>
     <td>허위 리뷰</td>
-  </tr>
-   <tr>
-    <td>악성 리뷰</td>
+    <td>허위 리뷰</td>
   </tr>
 </table>
 ``` Python
