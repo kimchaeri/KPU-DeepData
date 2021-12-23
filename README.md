@@ -74,7 +74,47 @@ driver.get(place_url.format(place))
 2. 블로그 리뷰 수집
 
 블로그 리뷰를 추출하기 위해서 url 변환 후(pcmap->m) 블로그 리뷰 수집
+``` Python
+driver = webdriver.Chrome(executable_path=r'D:\temp\chromedriver.exe')
 
+for idx,row in data2.iterrows():
+    try:
+        url=row['url']
+        place_name=row['name']
+        print("========================")
+        print(place_name)
+        #블로그 리뷰를 추출하기 위해 url 변환
+        blog_url1 = url.replace('review/visitor#', 'home')
+        blog_url2 = blog_url1.replace('pcmap','m')
+        print(blog_url2)
+        
+        #변환한 url 접속
+        driver.get(blog_url2)
+        time.sleep(0.5)
+        
+        #식당 이름
+        name_link = driver.find_element_by_xpath('//*[@id="_title"]/span[1]')
+        name = name_link.text
+
+        #음식점 링크에서 블로그 리뷰 버튼 클릭
+        blog_review = '//*[@id="app-root"]/div/div/div[2]/div[1]/div/div/div[1]/div/span[3]/a'
+        driver.find_element_by_xpath(blog_review).send_keys(Keys.ENTER)
+
+        #블로그 리뷰에서 더보기 끝까지 내리기
+        while True:
+            try:
+                time.sleep(1)
+                driver.find_element_by_tag_name('body').send_keys(Keys.END)
+                time.sleep(3)
+                driver.find_element_by_css_selector('#app-root > div > div > div.place_detail_wrapper > div:nth-child(5) > div:nth-child(4) > div.place_section._31amG > div._2kAri > a').click()
+                time.sleep(3)
+                driver.find_element_by_tag_name('body').send_keys(Keys.END)
+                time.sleep(1)
+
+            except NoSuchElementException:
+                print('-더보기 버튼 모두 클릭 완료-')
+                break
+```
 3. 네이버 플레이스 방문자 리뷰 수집
 
 추출한 url을 통해 네이버 플레이스 방문자 리뷰 수집
