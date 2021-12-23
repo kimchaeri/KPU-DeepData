@@ -229,6 +229,8 @@ def normalization(cr_review):
 ```
 #### 리뷰 선별
 1. 허위 리뷰 필터링
+
 변수 특성
+![허위 리뷰 변수 특성](https://user-images.githubusercontent.com/74261590/147189668-8610bfd1-e3b7-4872-80b5-e0a2e8ada66e.jpg)
 
 #### 식당 별 키워드 추출 및 감성 분석 
