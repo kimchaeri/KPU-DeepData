@@ -273,6 +273,25 @@ NONSPAM : SPAM = 2756 : 66 -> NONSPAM : SPAM = 2756 : 157
   </tr>
 </table>
 -Logisitic Regression
-
+<table>
+  <tr>
+    <th>AUC 수치</th>
+    <th>Confusion Matrix</th>
+  </tr>
+ <tr>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147191283-c16ed8f0-345b-4e13-af48-42ca5465127d.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147191299-20363731-2fe6-46aa-813c-c92773bcd77f.png"></td>
+  </tr>
+</table>
 -xgboost
+<table>
+  <tr>
+    <th>AUC 수치</th>
+    <th>Confusion Matrix</th>
+  </tr>
+ <tr>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147191327-0887ea31-698c-48c6-9de0-49d5a81238e6.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147191344-c6a254fa-acfd-4e88-915d-7fd08a562736.png"></td>
+  </tr>
+</table>
 #### 식당 별 키워드 추출 및 감성 분석 
