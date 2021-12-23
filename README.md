@@ -342,4 +342,16 @@ FastText 모델과 Word2Vec pretrained모델과 FastText pretrained 모델을 fi
 
 약 500만개의 단어 제거
 
+3. 악성 리뷰 필터링
+
++ 데이터 라벨링
+
+① 직접 라벨링 진행
+
+② 리뷰에 감정적이거나 악의적인 내용이 있을 경우 악성 리뷰(2), 비판이나 개선 관련 내용이 있을 경우 비판 리뷰(1), 일반 리뷰(0)
+
+![image](https://user-images.githubusercontent.com/74261590/147196920-95156090-9015-4fd7-86ec-152c8328c563.png)
+
++ 변수 특성
+
 #### 식당 별 키워드 추출 및 감성 분석 
