@@ -160,34 +160,6 @@ for idx,row in data2.iterrows():
         html = driver.page_source
         soup = BeautifulSoup(html, 'lxml')
         time.sleep(1)
-
-        #식당 리뷰 개수 출력
-        reviews = soup.find_all('div', attrs = {'class':'_3vfQ6'}) #리뷰 공간
-        review_num = len(reviews) #특정 식당의 리뷰 총 개수
-        print('리뷰 총 개수 : ' + str(review_num))
-
-        #넘버링
-        num = []
-        for i in range(0, review_num):
-            num.append(i+1)
-
-        #크롤링 작업
-        category = '방문자 리뷰'
-        for i in range(0, review_num):
-            # review 내용
-            try : 
-                review_content = reviews[i].find('span', attrs = {'class':'WoYOw'}).text
-
-            except: #리뷰가 없다면
-                review_content = ""
-
-            visitor_review_dic = {
-                'num':num[i],
-                'name' : place_name,
-                'blog or review' : category,
-                'visitor review content' : review_content
-            }
-            visitor_review_arr.append(visitor_review_dic)
 ```
 #### 리뷰 전처리
 #### 리뷰 선별
