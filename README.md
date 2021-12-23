@@ -53,12 +53,25 @@
 ![프로젝트 프로세스](https://user-images.githubusercontent.com/74261590/146882619-75263567-6a35-45b4-bb68-ed2bc8acc5e5.jpg)
 
 #### 데이터 수집
-##### 1. 식당 수집
+1. 식당 수집
 
 본인이 검색하고 싶은 지역 + 맛집으로 네이버 지도에 검색
+
 ![식당 수집](https://user-images.githubusercontent.com/74261590/147182014-5b6ac26c-594c-4094-8b3f-34ae7dc0b90f.jpg)
+``` Python
+#동적 크롤링을 위한 크롬드라이버
+driver = webdriver.Chrome(executable_path=r'D:\temp\chromedriver.exe')
+
+#사용자로부터 원하는 지역 검색
+place = input('검색할 맛집 지역을 입력하세요 : ') 
+place = place.replace(' ', '') 
+place_url="https://m.map.naver.com/search2/search.naver?query={}맛집"
+
+#url접속
+driver.get(place_url.format(place))
+```
 2. 블로그 리뷰 수집
-4. 네이버 플레이스 방문자 리뷰 수집
+3. 네이버 플레이스 방문자 리뷰 수집
 #### 리뷰 전처리
 #### 리뷰 선별
 #### 식당 별 키워드 추출 및 감성 분석 
