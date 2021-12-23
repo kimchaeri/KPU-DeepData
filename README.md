@@ -232,7 +232,9 @@ def normalization(cr_review):
 
 + 데이터 라벨링
 
-① 허위 리뷰 키워드 사전 spam_words 정의
+① 허위 리뷰 키워드 사전 spam_words 정의(광고 심사 지침에 있는 권고 문구를 바탕으로 제작)
+
+② 블로그 리뷰에 spam_words에 있는 단어가 있을 경우 spam(1), 없을 경우 non_spam(0)으로 라벨링
 
 + 변수 특성
 
