@@ -173,7 +173,7 @@ for idx,row in data2.iterrows():
   </tr>
  <tr>
     <td><img src="https://user-images.githubusercontent.com/74261590/147184522-7102cfe6-89b6-4a0f-960b-419d57799ecd.jpg"></td>
-    <td>허위 리뷰</td>
+    <td><img src="https://user-images.githubusercontent.com/74261590/147184616-4cb08526-6a05-472d-bd02-70287a00c7f0.jpg"></td>
   </tr>
 </table>
 
