@@ -252,5 +252,9 @@ NONSPAM : SPAM = 2756 : 66 -> NONSPAM : SPAM = 2756 : 157
 
 -Random Forest
 
-- Decision Tree
+-Decision Tree
+
+-Logisitic Regression
+
+-xgboost
 #### 식당 별 키워드 추출 및 감성 분석 
