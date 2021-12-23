@@ -166,6 +166,18 @@ for idx,row in data2.iterrows():
 2. 띄어쓰기 전처리
 3. 리뷰를 문장 단위로 자르기
 4. 전처리가 끝난 문장에 .을 붙임
+<table>
+  <tr>
+    <th>전처리 전</th>
+    <th>전처리 후</th>
+  </tr>
+ <tr>
+    <td>허위 리뷰</td>
+  </tr>
+   <tr>
+    <td>악성 리뷰</td>
+  </tr>
+</table>
 ``` Python
 corpus = []
 def normalization(cr_review):
