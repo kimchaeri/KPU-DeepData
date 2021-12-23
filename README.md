@@ -76,6 +76,8 @@ driver.get(place_url.format(place))
 
   추출한 url을 통해 네이버 플레이서 방문자 리뷰 수집
 
+![네이버 플레이스 방문자 리뷰 수집](https://user-images.githubusercontent.com/74261590/147182539-c41d7c68-4db4-4e82-a1d4-154191dbe2e1.jpg)
+
 #### 리뷰 전처리
 #### 리뷰 선별
 #### 식당 별 키워드 추출 및 감성 분석 
