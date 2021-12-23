@@ -246,4 +246,11 @@ NONSPAM : SPAM = 2756 : 66 -> NONSPAM : SPAM = 2756 : 157
 
 ![허위 리뷰 변수 특성](https://user-images.githubusercontent.com/74261590/147189668-8610bfd1-e3b7-4872-80b5-e0a2e8ada66e.jpg)
 
++ 모델 성능
+
+성능 평가 지표로는 Confusion matrix(Accuracy, Recall, Precision, F1_Score)와 ROC분석을 통한 AUC 수치 활용
+
+-Random Forest
+
+- Decision Tree
 #### 식당 별 키워드 추출 및 감성 분석 
