@@ -336,6 +336,10 @@ FastText 모델과 Word2Vec pretrained모델과 FastText pretrained 모델을 fi
 
 ⑤ ④번의 값이 ③번의 유사도 평균 값보다 낮다면 그 단어 제거
 
-⑥ 3개의 모델에서 제거한 단어들을 중복을 제거하고 모아서 원래 
+⑥ 3개의 모델에서 제거한 단어들을 중복을 제거하고 모아서 원래 리뷰에서 제거
+
+![image](https://user-images.githubusercontent.com/74261590/147196494-88c9870e-8db5-4a7b-a155-334b55754f90.png)
+
+약 500만개의 단어 제거
 
 #### 식당 별 키워드 추출 및 감성 분석 
