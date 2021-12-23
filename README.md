@@ -405,3 +405,27 @@ FastText 모델과 Word2Vec pretrained모델과 FastText pretrained 모델을 fi
 -> LightGBM 모델을 사용하여 13892개의 데이터 중 132개의 악성 리뷰 제거
 
 #### 식당 별 키워드 추출 및 감성 분석 
+
+① 감성 사전 제작
+
+서비스, 맛, 가격, 분위기, 재방문의사 5가지 부분의 긍·부정 감성 사전을 제작
+
+![image](https://user-images.githubusercontent.com/74261590/147197608-4707c173-0dde-4cd2-978d-df27da0681c3.png)
+
+② 형태소 분석을 통한 토큰화
+
+③ 구 단위로 감성 분석 진행(각 특성의 키워드와 주변 요소 함께 추출)
+
+-키워드 + 조사 + 어절 + 어절
+-키워드 + 어절 + 어절
+-어절 + 키워드 + 조사
+
+④ 키워드와 키워드가 포함된 구에서 해당 특성의 감성 사전에 포함된 긍정, 부정어가 있는지 확인해서 최종적인 긍 · 부정을 파악
+
+![image](https://user-images.githubusercontent.com/74261590/147197825-f30f21c4-bce5-4c7e-93aa-93d3e5568696.png)
+
+⑤ 식당 별로 키워드 추출 및 특성 별로 긍정리뷰/전체리뷰로 점수화
+
+![image](https://user-images.githubusercontent.com/74261590/147197924-b6f4f17b-f8e1-4fe5-a38b-8745f1e2d696.png)
+
+
