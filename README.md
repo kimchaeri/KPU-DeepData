@@ -225,7 +225,6 @@ def normalization(cr_review):
         review = kss.split_sentences(review)
         corpus.append(review)
         
-        
     return corpus
 ```
 #### 리뷰 선별
