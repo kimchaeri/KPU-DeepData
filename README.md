@@ -279,6 +279,23 @@ dtc_cv.fit(X_train, y_train)
 </table>
 -Random Forest
 
+``` Pyhton
+rf = RandomForestClassifier(random_state=2019)
+
+#GridSearchCV의 param_grid 설정
+#n_estimators : 최대 트리의 개수
+#불순도 함수 : gini, entropy
+param_grid = {'n_estimators': [5, 10, 15, 20, 25, 30, 100],
+              'criterion': ['gini', 'entropy'],
+              'max_depth': [2, 4, 6]}
+
+#param_grid 7X2X3=42
+#cv=10 이므로 10X42=420번의 학습/평가가 이루어짐
+rf_cv = GridSearchCV(estimator=rf, param_grid=param_grid, cv=10)
+
+rf_cv.fit(X_train, y_train)
+```
+
 <table>
   <tr>
     <th>AUC 수치</th>
@@ -291,6 +308,11 @@ dtc_cv.fit(X_train, y_train)
 </table>
 -Logisitic Regression
 
+``` Python
+log = LogisticRegression(random_state=2019)
+log.fit(X_train, y_train)
+```
+
 <table>
   <tr>
     <th>AUC 수치</th>
@@ -302,6 +324,28 @@ dtc_cv.fit(X_train, y_train)
   </tr>
 </table>
 -xgboost
+
+``` Python
+xg = XGBClassifier(random_state = 2021)
+
+#GridSearchCV의 param_grid 설정
+#n_estimators : 학습기의 개수(반복 횟수)
+#불순도 함수 : gini, entropy
+#min_child_weight : 이것을 기준으로 추가 분기 결정
+#colsample_bytree : 각 트리마다의 feature 샘플링 비율
+param_grid = {'n_estimators': [5, 10, 15, 20, 25, 30, 100],
+              'criterion': ['gini', 'entropy'],
+              'max_depth': [2, 4, 6],
+             'learning_rate':[0.1, 0.3],
+             'min_child_weight':[1,3], 
+              'colsample_bytree':[0.5,0.75]}
+
+#param_grid 7X2X3X2X2X2=336
+#cv=10 이므로 336X410=3360번의 학습/평가가 이루어짐
+xg_cv = GridSearchCV(estimator=xg, param_grid=param_grid, cv=10)
+
+xg_cv.fit(X_train, y_train)
+```
 
 <table>
   <tr>
@@ -327,8 +371,95 @@ FastText 모델과 Word2Vec pretrained모델과 FastText pretrained 모델을 fi
 ① 블로그 리뷰 토큰화
 
 ② 토큰화한 리뷰 데이터를 이용하여 학습
+-FastText 모델
+
+``` Python
+#토큰화한 블로그 리뷰들을 이용하여 FastText 모델 생성
+#size = 워드 벡터의 특징 값. 즉, 임베딩 된 벡터의 차원
+#window = 컨텍스트 윈도우 크기
+#min_count = 단어 최소 빈도 수 제한
+#workers = 학습을 위한 프로세스 수
+
+model = FastText(final_result, size=300, window=5, min_count=2, workers=4)
+model.train(final_result, total_examples=len(final_result), epochs=500) 
+```
+
+-Word2Vec Pretrained 모델을 fine tuning한 transfered 모델1
+
+``` Python
+#미리 훈련된 한국어 모델 불러오기
+PretrainedFastTextModel = Word2Vec.load('D:/채리/4학년 2학기/딥러닝프레임워크_박성호/팀플/ko.bin')
+
+#다운로드 받은 word2vec모델이 형식이 맞지 않아 새로 저장
+PretrainedFastTextModel.wv.save_word2vec_format("ko.bin.gz", binary=False)
+
+#Fine tuning 할 새로운 Word2Vec 모델 생성
+#PretrainedFastTextModel과 'vector_size'가 같은 model을 생성
+TransferedModel=Word2Vec(size=PretrainedFastTextModel.vector_size, min_count=1)
+
+TransferedModel.build_vocab([PretrainedFastTextModel.wv.vocab.keys()])
+
+#주어진 데이터로 새로운 모델의 단어 추가
+#update parameter를 True로 설정
+TransferedModel.build_vocab(final_result,update=True)
+
+#Pretrained 모델의 학습 파라미터를 기반으로 새로운 모델의 학습 파라미터 초기화
+#학습파라미터를 'filepath'에 있는 값으로 모두 업데이트해줌
+#lockf=0.0 : 보통은 학습 파라미터를 update하지 못하도록 lock이 걸려있음
+#lockf=1 : 학습 파라미터를 update하도록 lock 해제
+file_path1="D:/채리/4학년 2학기/딥러닝프레임워크_박성호/팀플/ko.bin.gz"
+TransferedModel.intersect_word2vec_format(file_path1, lockf=1.0, binary=False, encoding='utf-8', unicode_errors='ignore')
+
+#새로운 데이터 기반의 학습
+TransferedModel.train(final_result, total_examples=len(final_result), epochs=500)
+```
+
+-FastText Pretrained 모델을 fine tuning한 transfered 모델2
+
+``` Python
+#모델 다운로드
+urllib.request.urlretrieve('https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.ko.300.bin.gz', filename='cc.ko.300.bin.gz')
+
+#미리 훈련된 한국어 모델 불러오기
+PretrainedFastTextModel2=fasttext.load_facebook_model('D:/채리/4학년 2학기/딥러닝프레임워크_박성호/팀플/cc.ko.300.bin.gz')
+
+#다운로드 받은 fasttext형식이 맞지 않아 새로 저장
+PretrainedFastTextModel2.wv.save_word2vec_format("cc.ko.300.bin.gz", binary=False)
+
+#Fine tuning 할 새로운 Word2Vec 모델 생성(FastText는 fine tuning할 방법이 없음)
+#PretrainedFastTextModel2과 'vector_size'가 같은 model을 생성
+TransferedModel2=Word2Vec([PretrainedFastTextModel2.wv.vocab.keys()],size=PretrainedFastTextModel2.vector_size, min_count=1)
+
+#주어진 데이터로 새로운 모델의 단어 추가
+#update parameter를 True로 설정
+TransferedModel2.build_vocab(final_result,update=True)
+
+#Pretrained 모델의 학습 파라미터를 기반으로 새로운 모델의 학습 파라미터 초기화
+#학습파라미터를 'filepath'에 있는 값으로 모두 업데이트해줌
+#lockf=0.0 : 보통은 학습 파라미터를 update하지 못하도록 lock이 걸려있음
+#lockf=1 : 학습 파라미터를 update하도록 lock 해제
+file_path2="D:/채리/4학년 2학기/딥러닝프레임워크_박성호/팀플/cc.ko.300.bin.gz"
+TransferedModel2.intersect_word2vec_format(file_path2, lockf=1.0, binary=False, encoding='utf-8', unicode_errors='ignore')
+
+#새로운 데이터 기반의 학습
+TransferedModel2.train(final_result, total_examples=len(final_result), epochs=500)
+```
 
 ③ 블로그 리뷰 중 식당에 대한 내용만 있는 리뷰(기준 문장)와 다른 리뷰들 사이의 유사도를 계산해서 평균을 구함
+
+``` Python
+fasttext_similarity=[]
+for blog_info in temp1:
+    blog_review=blog_info['blog review']
+    for test_word in test_sentence:
+        for word in blog_review:
+            if word=='.':
+                continue
+            similarity=model.wv.similarity(test_word,word)
+            fasttext_similarity.append(similarity)
+                
+fasttext_average = sum(fasttext_similarity)/len(fasttext_similarity)
+```
 <table>
   <tr>
     <th>모델</th>
