@@ -371,6 +371,7 @@ FastText 모델과 Word2Vec pretrained모델과 FastText pretrained 모델을 fi
 ① 블로그 리뷰 토큰화
 
 ② 토큰화한 리뷰 데이터를 이용하여 학습
+
 -FastText 모델
 
 ``` Python
@@ -512,6 +513,40 @@ fasttext_average = sum(fasttext_similarity)/len(fasttext_similarity)
 성능 평가 지표로는 Confusion matrix(Accuracy, Recall, Precision, F1_Score)와 ROC분석을 통한 AUC 수치 활용
 
 -Decision Tree
+
+``` Python
+dtc = DecisionTreeClassifier()
+
+model =dtc
+
+# Pipeline 설정
+#머신 러닝 프로세스에서 파라미터를 조정하거나 스케일링 및 정규화와 같은 데이터 변환을 수행
+#이때 모델 학습과 테스트를 할때 최소 2번 이상 적용해야 하는데 이러한 과정을 단순화하는 도구
+vec_pipe = Pipeline([
+                    ("vec", TfidfVectorizer(tokenizer=okt_tokenizer)), #Tfidf와 해당하는 모델 비교
+                    ("model", model)
+                    ])
+    
+# 하이퍼파라미터 설정
+# tfidf 하이퍼파라미터 설정
+vec_pipe_params = {"vec__ngram_range" : [(1,2)], # 단어 묶음 수
+                    "vec__stop_words"  : [None], # 한국어 해당 안됨
+                    "vec__min_df" : [3], # 학습에 포함하기 위한 최소 빈도 값
+                    "vec__max_df" : [0.9]} # 학습에 포함되기 위한 최대 빈도값
+    
+    
+# grid search
+vec_gs = GridSearchCV(vec_pipe,
+                        param_grid=vec_pipe_params,
+                        cv=3)
+
+# model fitting
+vec_gs.fit(X_train, y_train);
+    
+# 예측
+y_pred = vec_gs.best_estimator_.predict(X_test)
+```
+
 <table>
   <tr>
     <th>AUC 수치</th>
@@ -524,6 +559,37 @@ fasttext_average = sum(fasttext_similarity)/len(fasttext_similarity)
 </table>
 
 -xgboost
+
+``` Python
+xgb= XGBClassifier()
+
+model = xgb
+
+# Pipeline 설정
+vec_pipe = Pipeline([
+                    ("vec", TfidfVectorizer(tokenizer=okt_tokenizer)), 
+                    ("model", model)
+                    ])
+    
+# 하이퍼파라미터 설정
+vec_pipe_params = {"vec__ngram_range" : [(1,2)], 
+                    "vec__stop_words"  : [None],
+                    "vec__min_df" : [3],
+                    "vec__max_df" : [0.9]}
+    
+    
+# grid search
+vec_gs2 = GridSearchCV(vec_pipe,
+                        param_grid=vec_pipe_params,
+                        cv=3)
+
+# model fittingb
+vec_gs2.fit(X_train, y_train);
+    
+# 예측
+y_pred = vec_gs2.best_estimator_.predict(X_test)
+```
+
 <table>
   <tr>
     <th>AUC 수치</th>
@@ -536,6 +602,36 @@ fasttext_average = sum(fasttext_similarity)/len(fasttext_similarity)
 </table>
 
 -LightGBM
+
+``` Python
+lgbm = LGBMClassifier()
+
+model =lgbm
+
+# Pipeline 설정
+vec_pipe = Pipeline([
+                    ("vec", TfidfVectorizer(tokenizer=okt_tokenizer)), 
+                    ("model", model)
+                    ])
+    
+# 하이퍼파라미터 설정
+vec_pipe_params = {"vec__ngram_range" : [(1,2)], 
+                    "vec__stop_words"  : [None],
+                    "vec__min_df" : [3],
+                    "vec__max_df" : [0.9]}
+    
+    
+# grid search
+vec_gs3 = GridSearchCV(vec_pipe,
+                        param_grid=vec_pipe_params,
+                        cv=3)
+
+# model fitting
+vec_gs3.fit(X_train, y_train);
+    
+# 예측
+y_pred = vec_gs3.best_estimator_.predict(X_test)
+```
 <table>
   <tr>
     <th>AUC 수치</th>
@@ -569,10 +665,167 @@ fasttext_average = sum(fasttext_similarity)/len(fasttext_similarity)
 
 ④ 키워드와 키워드가 포함된 구에서 해당 특성의 감성 사전에 포함된 긍정, 부정어가 있는지 확인해서 최종적인 긍 · 부정을 파악
 
+``` Python
+#각 특성별 키워드 추출, 문장 속에 다른 단어들과 섞여서 쓰이는 형태를 보고 감성분석을 진행해야 하니까 키워드+주변어절 추출합니다
+#구 단위분석
+def get_feature_keywords(feature_keywords, review):
+    feature_temp = []
+    for keyword in feature_keywords:
+        if re.findall(keyword, review): # 리뷰에서 키워드 있는거 다 찾아서
+            sub_list = ['게','고','음','며','데','만','도','면'] #연결어미
+            
+            for sub in sub_list:
+                if sub+' ' in review: # 연결어미가 띄어쓰기랑 같이 있으면
+                    review = re.sub(sub+' ', sub+',', review) # 연결어미 + 띄어쓰기를 연결어미 + , 로 대체
+                    #키워드와 의미 없는 연결어미가 함께 추출되는 일이 없도록(밑에서 어절 단위로 추출함)
+                
+            a = re.findall(keyword +'+[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+\s+[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+\s+[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+',review) # K한 한 한글
+            # 키워드+조사 띄어쓰기 어절 2개가 붙어 있는거 다 찾기
+            b = re.findall(keyword + '+\s+[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+\s+[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+',review) # K 한 한글 
+            # 키워드와 띄어쓰기 어절 1개짜리 다 찾기
+            c = re.findall('[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+\s+' + keyword +'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+',review) # 한 K한글 예쁜 분위기가
+            # 어절 + 키워드 + 어절인 부분 다 찾기
+            
+            # 추출한 키워드들을 feature_temp에 append
+            for ngram in a:
+                t = ()
+                feature_temp.append(t + (ngram,keyword))
+            for ngram in b:
+                t = ()
+                feature_temp.append(t + (ngram,keyword))
+            for ngram in c:
+                t = ()
+                feature_temp.append(t + (ngram,keyword))
+                
+    return feature_temp
+```
+``` Python
+#특성별 감성분석 인풋으로 특성별 긍정사전, 부정사전, 추출한 키워드
+def get_feature_emotions(feature_good_dict,feature_bad_dict, feature_temp):
+    good_feature_emotion_list = []
+    bad_feature_emotion_list = []
+    
+    for ngrams in feature_temp: # 추출한 키워드(추출 문장, 키워드)에서
+        keyword = ngrams[1] # 키워드 -> 감성사전에서 특성별 긍부정을 추출할 키워드
+        ngram = ngrams[0] # 추출 문장 -> 특성별 긍부정 단어가 있는지 확인할 문장
+        is_bad_feature = None
+        
+        good_emotion_list = feature_good_dict[keyword] # 특성별 긍정 감정어 
+        bad_emotion_list = feature_bad_dict[keyword] # 특성별 부정 감정어
+        for emotion in good_emotion_list: # 긍정감정어에서
+            if re.findall(emotion, ngram): # 긍정어와 추출한 문장이 함께 있다면
+                is_bad_feature = False  # 나쁜 특성은 아니다
+        for emotion in bad_emotion_list: # 부정감정어에서
+            if re.findall(emotion, ngram): # 부정어와 추출한 문장이 함께 있다면
+                is_bad_feature = True    # 이 문장은 부정문이다
+        for negative in negative_word_emotion: #[안, 않, 못, 없 등]의 부정어에서
+            if re.findall(negative, ngram): # 부정어와 추출한 문장이 함께 있으면서
+                if is_bad_feature == True: # 이 문장이 부정문이면
+                    is_bad_feature = False # 이 문장은 사실 부정한 문장이 아니다
+                    break
+                elif is_bad_feature == False: # 이 문장이 부정한 문장이 아니면
+                    is_bad_feature = True # 이 문장은 사실 부정한 문장이다
+                    break
+                else:
+                    is_bad_feature = True # 그냥 아무 감정 없는 평범한 문장이라면 부정한 문장이다
+                    break   
+        if is_bad_feature:
+            bad_feature_emotion_list.append(ngram) # 부정 문장에 추가
+        elif is_bad_feature == False:
+            good_feature_emotion_list.append(ngram) # 긍정 문장에 추가
+        else:
+            pass # 아무것도 아니면 패스
+    return good_feature_emotion_list, bad_feature_emotion_list
+```
 ![image](https://user-images.githubusercontent.com/74261590/147197825-f30f21c4-bce5-4c7e-93aa-93d3e5568696.png)
 
 ⑤ 식당 별로 키워드 추출 및 특성 별로 긍정리뷰/전체리뷰로 점수화
 
+``` Python
+#식당별 감성분석 결과 카운팅 및 스코어
+#check_division은 restaurant_good_service_count, restaurant_good_service_count + restaurant_bad_service_count 파라미터로 받고, *100 함 -> 점수가 나옴
+check_division = lambda x, y: y if y ==0 else round((x / float(y)),2) # x,y 파라미터를 받아서 y가 0이면 0, 아니면 x/y의 소수점 밑 두자리 수까지 반올림
+
+for i in range(len(name)):
+    restaurant_good_service_count = 0
+    restaurant_bad_service_count = 0
+    restaurant_good_atmosphere_count =0
+    restaurant_bad_atmosphere_count =0
+    restaurant_good_cost_count =0
+    restaurant_bad_cost_count =0
+    restaurant_good_visit_count = 0
+    restaurant_bad_visit_count = 0
+    restaurant_good_taste_count = 0
+    restaurant_bad_taste_count = 0
+    print(name[i]) # 식당 이름부터 출력
+    reviews_list = refining(restaurant_review[i]) #식당에 대한 리뷰 전체 형태소 분석
+    for review in reviews_list: #한번 돌 때마다 한 식당의 전체 리뷰에 대한 감성분석 진행
+        service_temp = get_feature_keywords(service_good_feature.keys(), review)
+        good_service,bad_service = get_feature_emotions(service_good_feature, service_bad_feature, service_temp)
+
+        atmosphere_temp = get_feature_keywords(atmosphere_good_feature.keys(), review)
+        good_atmosphere,bad_atmosphere = get_feature_emotions(atmosphere_good_feature, atmosphere_bad_feature, atmosphere_temp)
+
+        cost_temp = get_feature_keywords(cost_good_feature.keys(), review)
+        good_cost,bad_cost = get_feature_emotions(cost_good_feature, cost_bad_feature, cost_temp)
+
+        visit_temp = get_feature_keywords(visit_good_feature.keys(), review)
+        good_visit,bad_visit = get_feature_emotions(visit_good_feature, visit_bad_feature, visit_temp)
+
+        taste_temp = get_feature_keywords(taste_good_feature.keys(), review)
+        good_taste,bad_taste = get_feature_emotions(taste_good_feature, taste_bad_feature, taste_temp) # 맛 특성 긍부정 분석
+        taste_good_emotion_temp = get_feature_keywords(taste_good_emotion, review) # 맛에 대한 긍정 감정 키워드 추출
+        taste_bad_emotion_temp = get_feature_keywords(taste_bad_emotion, review) # 맛에 대한 부정 감정 키워드 추출
+        good_taste2, bad_taste2 = get_taste_emotion(taste_good_emotion_temp,taste_bad_emotion_temp)
+        good_taste.extend(good_taste2) # 긍정 맛 문장에 추가
+        bad_taste.extend(bad_taste2) # 부정 맛 문장에 추가
+        
+        # 각 특성 긍부정 리스트의 크기에 따라 점수 카운트(부정은 출력 안하긴함)
+        if len(good_service) > len(bad_service):
+            restaurant_good_service_count += 1
+        elif len(good_service) < len(bad_service):
+            restaurant_bad_service_count += 1
+        else:
+            pass
+        
+        if len(good_atmosphere) > len(bad_atmosphere):
+            restaurant_good_atmosphere_count += 1
+        elif len(good_atmosphere) < len(bad_atmosphere):
+            restaurant_bad_atmosphere_count += 1
+        else:
+            pass
+        
+        if len(good_cost) > len(bad_cost):
+            restaurant_good_cost_count += 1
+        elif len(good_cost) < len(bad_cost):
+            restaurant_bad_cost_count += 1
+        else:
+            pass
+            
+        if len(good_visit) > len(bad_visit):
+            restaurant_good_visit_count += 1
+        elif len(good_visit) < len(bad_visit):
+            restaurant_bad_visit_count += 1
+        else:
+            pass
+        
+        if len(good_taste) > len(bad_taste):
+            restaurant_good_taste_count += 1
+        elif len(good_taste) < len(bad_taste):
+            restaurant_bad_taste_count += 1
+        else:
+            pass
+        
+    TT = restaurant_good_service_count + restaurant_bad_service_count + restaurant_good_taste_count + restaurant_bad_taste_count + restaurant_good_atmosphere_count + restaurant_bad_atmosphere_count + restaurant_good_cost_count + restaurant_bad_cost_count
+    
+    #if TT > 5: # 총 감성 카운트가 5 이상만 출력하는건데 일단 주석 처리 해 놓고 전체 출력
+    print('Total review count: {}'.format(len(restaurant_review[i])))
+    print('Good service: {}/{} = {}'.format(restaurant_good_service_count,restaurant_good_service_count + restaurant_bad_service_count,100*check_division(restaurant_good_service_count, restaurant_good_service_count + restaurant_bad_service_count)))
+    print('Good atmosphere: {}/{} = {}'.format(restaurant_good_atmosphere_count,restaurant_good_atmosphere_count + restaurant_bad_atmosphere_count,100*check_division(restaurant_good_atmosphere_count,restaurant_good_atmosphere_count + restaurant_bad_atmosphere_count))) 
+    print('Good cost: {}/{} = {}'.format(restaurant_good_cost_count,restaurant_good_cost_count + restaurant_bad_cost_count, 100*check_division(restaurant_good_cost_count,restaurant_good_cost_count + restaurant_bad_cost_count)))
+    print('Good taste: {}/{} = {}'.format(restaurant_good_taste_count,restaurant_good_taste_count + restaurant_bad_taste_count,100*check_division(restaurant_good_taste_count,restaurant_good_taste_count + restaurant_bad_taste_count)))
+    print('')
+```
 ![image](https://user-images.githubusercontent.com/74261590/147197924-b6f4f17b-f8e1-4fe5-a38b-8745f1e2d696.png)
 
 
