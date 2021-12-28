@@ -251,6 +251,22 @@ NONSPAM(0) : SPAM(1) = 2756 : 66 -> NONSPAM(0) : SPAM(1) = 2756 : 157
 성능 평가 지표로는 Confusion matrix(Accuracy, Recall, Precision, F1_Score)와 ROC분석을 통한 AUC 수치 활용
 
 -Decision Tree
+
+``` Python
+dtc = DecisionTreeClassifier(random_state = 2021)
+
+#GridSearchCV의 param_grid 설정
+#불순도 함수 : gini, entropy
+param_grid = {'criterion': ['gini', 'entropy'],
+              'max_depth': [2, 4, 6, 8, 10, None]}
+
+#param_grid 2X6=12
+#cv=20 이므로 12X20=240번의 학습/평가가 이루어짐
+dtc_cv = GridSearchCV(estimator=dtc, param_grid=param_grid, cv=20)
+
+dtc_cv.fit(X_train, y_train)
+```
+
 <table>
   <tr>
     <th>AUC 수치</th>
